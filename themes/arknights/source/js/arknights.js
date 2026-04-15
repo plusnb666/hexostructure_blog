@@ -51,8 +51,7 @@ function persistBgmNodeOnPjax() {
             placeholder.replaceWith(bgm);
         }
         else if (!getBgmNode()) {
-            var _a;
-            (_a = document.getElementById('bgm-control')) === null || _a === void 0 ? void 0 : _a.parentElement.appendChild(bgm);
+            document.getElementById('bgm-control')?.parentElement?.appendChild(bgm);
         }
         syncBgmControl();
     });
