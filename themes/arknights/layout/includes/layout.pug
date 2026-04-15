@@ -52,6 +52,8 @@ html(lang=config.language theme-mode=htmlThemeMode)
           block content
         include ./bottom-btn.pug
       include ./aside.pug
+    if theme.bgm && theme.bgm.enable
+      audio(id='bgm' src=theme.bgm.src autoplay=theme.bgm.autoplay loop=theme.bgm.loop crossorigin='anonymous')
     if theme.canvas_dust
       canvas#canvas-dust
 
