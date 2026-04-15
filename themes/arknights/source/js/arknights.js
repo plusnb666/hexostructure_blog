@@ -32,11 +32,13 @@ function BgmControl() {
 }
 function persistBgmNodeOnPjax() {
     const globalWindow = window;
+    let wasPlaying = false;
     document.addEventListener('pjax:send', () => {
         const bgm = getBgmNode();
         if (!bgm) {
             return;
         }
+        wasPlaying = !bgm.paused;
         globalWindow.__arknightsBgm = bgm;
         document.body.appendChild(bgm);
     });
@@ -52,6 +54,11 @@ function persistBgmNodeOnPjax() {
         }
         else if (!getBgmNode()) {
             document.getElementById('bgm-control')?.parentElement?.appendChild(bgm);
+        }
+        if (wasPlaying && bgm.paused) {
+            void bgm.play().catch(() => {
+                console.warn('BGM 自动播放被浏览器阻止，需要用户交互');
+            });
         }
         syncBgmControl();
     });
