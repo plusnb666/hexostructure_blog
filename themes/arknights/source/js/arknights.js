@@ -1,18 +1,64 @@
 "use strict";
-function BgmControl() {
-    const bgm = document.getElementById('bgm');
+function getBgmNode() {
+    return document.getElementById('bgm');
+}
+function syncBgmControl() {
+    const bgm = getBgmNode();
     const control = document.getElementById("bgm-control");
-    if (bgm.paused) {
-        bgm.play();
-        control.setAttribute("fill", "#18d1ff");
-        control.style.transform = "scaleY(1)";
+    if (!bgm || !control) {
+        return;
     }
-    else {
-        bgm.pause();
+    if (bgm.paused) {
         control.setAttribute("fill", "currentColor");
         control.style.transform = "scaleY(.5)";
     }
+    else {
+        control.setAttribute("fill", "#18d1ff");
+        control.style.transform = "scaleY(1)";
+    }
 }
+function BgmControl() {
+    const bgm = getBgmNode();
+    if (!bgm) {
+        return;
+    }
+    if (bgm.paused) {
+        void bgm.play();
+    }
+    else {
+        bgm.pause();
+    }
+    syncBgmControl();
+}
+function persistBgmNodeOnPjax() {
+    const globalWindow = window;
+    document.addEventListener('pjax:send', () => {
+        const bgm = getBgmNode();
+        if (!bgm) {
+            return;
+        }
+        globalWindow.__arknightsBgm = bgm;
+        document.body.appendChild(bgm);
+    });
+    document.addEventListener('pjax:complete', () => {
+        const bgm = globalWindow.__arknightsBgm;
+        if (!bgm) {
+            syncBgmControl();
+            return;
+        }
+        const placeholder = getBgmNode();
+        if (placeholder && placeholder !== bgm) {
+            placeholder.replaceWith(bgm);
+        }
+        else if (!getBgmNode()) {
+            var _a;
+            (_a = document.getElementById('bgm-control')) === null || _a === void 0 ? void 0 : _a.parentElement.appendChild(bgm);
+        }
+        syncBgmControl();
+    });
+    document.addEventListener('DOMContentLoaded', syncBgmControl);
+}
+persistBgmNodeOnPjax();
 function getElement(string, item = document.documentElement) {
     let tmp = item.querySelector(string);
     if (tmp === null) {
