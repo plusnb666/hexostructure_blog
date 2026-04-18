@@ -1,3 +1,4 @@
+//- 主题前端脚本入口：负责加载依赖并在 PJAX 后重置动态组件
 script(defer src=url_for("js/arknights.js"))
 
 if searchConfig !== null
@@ -50,6 +51,7 @@ script(async src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js")
 script(async src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js")
 script(async src=url_for("/lib/encrypt/hbe.js"))
 include ./pjax.pug
+//- reset 在首屏与每次 PJAX 完成后执行：重建评论系统、图库、数学公式等动态模块
 script.pjax-js reset= () => {
   if theme.valine && theme.valine.enable === true
     |new Valine({
@@ -153,6 +155,7 @@ script.pjax-js reset= () => {
 
 script window.addEventListener("load",() => {
   if pjax
+    //- PJAX 只替换核心内容区与少量配置节点，保留全局状态
     |pjax = new Pjax({
     |  cacheBust: false,
     |  selectors: ['title','article','#aside-block','.pjax-js','data-pjax','.vercount','meta[name=page-config]'],

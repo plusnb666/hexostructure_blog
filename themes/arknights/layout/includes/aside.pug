@@ -1,3 +1,4 @@
+//- 全站侧栏：作者信息、社交链接、站点统计、页脚信息
 aside
   #about
     a(href=config.root)#logo
@@ -12,6 +13,7 @@ aside
     if theme.social
       #social-links
         each value, name in theme.social
+          //- 支持“链接 || 图标”格式：自动识别邮箱并补全 mailto:
           - let icon = value.split('||')[1].trim(), src = value.split('||')[0].trim()
           - const hasUriScheme = /^[a-z][a-z0-9+.-]*:/i.test(src)
           - const isEmailAddress = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(src)
@@ -24,6 +26,7 @@ aside
               img(alt= name,src= icon)
   #aside-block
     block aside-block
+    //- 无标题页面（例如首页）显示站点统计
     if page.title === undefined
       section#total
         a#total-archives(href= url_for("archives"))
@@ -46,6 +49,7 @@ aside
               span#vercount_container_site_uv(class='total-title') #{__('vercount.siteVisitor')}
                 span#vercount_value_site_uv(class='total-number') #{__('vercount.loading')}
   footer(style= footerStyle)
+    //- 备案与版权信息由配置驱动，可按需开启/关闭
     if theme.aside.icp !== null
       nobr
         span.icp-title ICP

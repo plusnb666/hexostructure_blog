@@ -1,4 +1,5 @@
 -
+  //- 统一页面标题生成规则：根据页面类型拼接站点名
   let pageTitle = page.title || config.subtitle || ''
   if (is_post()) pageTitle = page.title
   if (is_archive()) pageTitle = __('menu.archive.plural')
@@ -39,6 +40,7 @@ html(lang=config.language theme-mode=htmlThemeMode)
   head
     include ./meta-data.pug
   body
+    //- PJAX 进度条容器
     if pjax
       .loading(style="opacity: 0;")
         .loadingBar.left
@@ -52,6 +54,7 @@ html(lang=config.language theme-mode=htmlThemeMode)
           block content
         include ./bottom-btn.pug
       include ./aside.pug
+    //- BGM 节点全局挂载在 main 外，避免 PJAX 替换 article 时重建播放器
     if theme.bgm && theme.bgm.enable
       audio(id='bgm' src=theme.bgm.src autoplay=theme.bgm.autoplay loop=theme.bgm.loop crossorigin='anonymous')
     if theme.canvas_dust

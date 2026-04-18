@@ -1,3 +1,4 @@
+//- 递归渲染多级菜单：支持对象形式的子菜单
 mixin expand_list(list)
   each url, label in list
     - var match = null
@@ -13,6 +14,7 @@ mixin expand_list(list)
         a.navSecond(href= url_for(url))
           span.navItemTitle= label
 
+//- 顶部导航：包含菜单按钮、搜索入口、主菜单
 header.closed
   .navBtn
     i.navBtnIcon
@@ -30,6 +32,7 @@ header.closed
       .search-popup(tabindex="0")
         #search-result
     ol.navContent
+      //- 合并主题 menu 与站点 config.menu，后者可覆盖同路径项
       - var finalMenu = {}
       each url, label in theme.menu
         - finalMenu[url_for(url)] = {url: url, label: label}

@@ -1,10 +1,13 @@
+//- 归档页侧栏：用于展示分类与标签总览
 #archive-aside
+  //- 分类区块
   #Categories
     h1 #{__('menu.category.plural')}
     if categoriesList
       != categoriesList
     else
       p #{__('menu.empty')}
+  //- 标签区块
   #Tags
     h1 #{__('menu.tag.plural')}
     if tagsList
