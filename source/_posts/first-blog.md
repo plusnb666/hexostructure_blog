@@ -1,5 +1,7 @@
 ---
 title: first-blog
+date: 2026-05-05
+updated: 2026-05-05
 ---
 welcome to nbplus' blog!This is my first blog.Let me have a brief introduction of me.
 My nickname is nbplus.I'm a college student majored in cs(you know what im talking about)
